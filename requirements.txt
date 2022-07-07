@@ -1,0 +1,5 @@
+unoffical-athena-federation-sdk==0.0.3
+pandas==1.4.3
+fsspec==2022.5.0
+openpyxl==3.0.10
+boto3==1.24.24
