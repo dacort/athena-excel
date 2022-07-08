@@ -1,12 +1,12 @@
-from typing import List
 import io
 import os
+from typing import Any, Dict, List, Mapping
 
-from athena.federation.athena_data_source import AthenaDataSource
 import boto3
 import openpyxl
 import pandas as pd
 import pyarrow as pa
+from athena.federation.athena_data_source import AthenaDataSource
 
 S3_BUCKET = os.getenv("S3_BUCKET")
 S3_PREFIX = os.getenv("S3_PREFIX").strip(
@@ -45,7 +45,9 @@ class ExcelDataSource(AthenaDataSource):
         df = pd.read_excel(
             self._get_filelike_object(database_name), sheet_name=table_name
         )
-        return dict(zip(self.columns(database_name, table_name), list(df.to_records())))
+        return dict(
+            zip(self.columns(database_name, table_name), list(zip(*df.values.tolist())))
+        )
 
     def _list_excel_files_without_extension(self):
         excel_db_names = []
